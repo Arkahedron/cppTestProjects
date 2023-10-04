@@ -1,47 +1,95 @@
 #include <iostream>
 #include <string>
+#include <sstream>
 
 //using declaration for cout, cin, endl and string
 using namespace std;
 
 
-//currently unused functions
-float calcSum(float aNum, float bNum, float cNum) {
-	cout << "Please input three numbers and I will give you their sum." << endl;
+//Function for checking if user input is a valid float
+float fUpIn() {
 
-	cout << "input first number: ";
-	cin >> aNum;
+	string input = "";
+	float myNumber = 0;
 
-	cout << "input second number: ";
-	cin >> bNum;
+	getline(cin, input);
+	stringstream ss(input);
+	if (ss >> myNumber) { return myNumber; }
 
-	cout << "input third number: ";
-	cin >> cNum;
-
-	float sumVal = aNum + bNum + cNum;
-
-	cout << "Calculation: " << aNum << "+" << bNum << "+" << cNum << " = " << sumVal << endl;
-	cout << "Final Sum: " << sumVal << endl;
-
-	return sumVal;
+	while (true) {
+		cout << "please enter a valid number: ";
+		getline(cin, input);
+		stringstream ss(input);
+		if (ss >> myNumber) {break;}
+	}
+	return myNumber;
 }
-float calcAvg(float aNum, float bNum, float cNum) {
-	cout << "Please input three numbers and I will give you their average." << endl;
 
-	cout << "input first number: ";
-	cin >> aNum;
 
-	cout << "input second number: ";
-	cin >> bNum;
+//Function for adding user defined amount of numbers together
+pair<float, float> calcSum(bool solo) {
 
-	cout << "input third number: ";
-	cin >> cNum;
+	float sumVal = 0;
+	int inVal;
+	int sumLength;
+	float * sumArray;
+		
+	if (solo == 1) { cout << endl << " How many numbers do you want to add together?: "; } //only prints if func is run independently of average function
 
-	float sumVal = aNum + bNum + cNum;
-	float avgVal = sumVal / 3;
 
-	cout << "Calculation: " << aNum << "+" << bNum << "+" << cNum << " = " << sumVal << "/3 = " << avgVal << endl;
-	cout << "Final Average: " << avgVal << endl;
+	inVal = fUpIn(); //Checks and cleans user input to only accept float values
+
+	sumArray = new (nothrow) float[inVal];
+	
+	if (sumArray == nullptr) { cout << "(error lol)"; }
+	else {
+		for (sumLength = 0; sumLength < inVal; sumLength++) {
+		cout << "  input number " << sumLength+1 << ": ";
+		sumArray[sumLength] = fUpIn();
+		//cin >> sumArray[sumLength];
+		}
+	}
+	for (sumLength = 0; sumLength < inVal; sumLength++) {
+		if (sumArray == nullptr) { cout << "(also error lol)"; }
+		else { sumVal += sumArray[sumLength]; }
+	}
+	cout << " Calculation: ";
+	
+	for (sumLength = 0; sumLength < inVal; sumLength++) {
+		if (sumArray == nullptr) { cout << "(also also error lol)"; }
+		else {
+			if (sumLength == 0) { cout << sumArray[sumLength]; }
+			else { cout << "+" << sumArray[sumLength]; }
+		}
+	}
+
+	float fSumLength = sumLength;
+	float fSumVal = sumVal;
+
+	cout << " = " << sumVal;
+
+	if (solo == 1) { cout << endl << " Final Sum: " << sumVal << endl << endl; }
+
+
+	delete[] sumArray;
+		
+	return { fSumVal, fSumLength };
+}
+
+
+//Function for finding the average of a user defined amount of numbers
+float calcAvg() {
+	
+	cout << endl << " How many numbers do you want to find the average of?: ";
+
+	pair<float, float> p = calcSum(0);
+
+	float avgVal;
+	avgVal = p.first / p.second;
+
+	cout <<  "/" << p.second << " = " << avgVal;
+
+	cout << endl << " Final Average: " << avgVal  << endl << endl;
 
 	return avgVal;
 }
@@ -50,10 +98,6 @@ float calcAvg(float aNum, float bNum, float cNum) {
 int main()
 {
 	string eKey; //variable of user inputted key
-	float aNum, bNum, cNum;
-
-	//enum calcMode {eFindSum, eFindAvg}; (unused variable of what current mode the number tool is in)
-
 
 	cout << "  -{ WELCOME TO MY NUMBER TOOL }-" << endl;
 
@@ -65,53 +109,14 @@ int main()
 		cout <<" (type x to exit)" << endl;
 		getline(cin, eKey);
 		if (eKey == "x") { cout << "exiting program..."; break; }
+		
+		//Adds user inputted values
+		if (eKey == "SUM") { calcSum(1); }
 
+		//Averages three inputted values
+		if (eKey == "AVG") { calcAvg(); } 
 
-		//Adds three inputted values
-		if (eKey == "SUM" or "AVG") {
-			if (eKey == "SUM") {
-				cout << endl << " Please input three numbers and I will give you their sum." << endl;
-
-				cout << "  input first number: ";
-				cin >> aNum;
-
-				cout << "  input second number: ";
-				cin >> bNum;
-
-				cout << "  input third number: ";
-				cin >> cNum;
-
-				float sumVal = aNum + bNum + cNum;
-
-				cout << "Calculation: " << aNum << "+" << bNum << "+" << cNum << " = " << sumVal << endl;
-				cout << "Final Sum: " << sumVal << endl << endl;
-			}
-
-			//Averages three inputted values
-			if (eKey == "AVG") {
-				cout << endl << " Please input three numbers and I will give you their average." << endl;
-
-				cout << "  input first number: ";
-				cin >> aNum;
-
-				cout << "  input second number: ";
-				cin >> bNum;
-
-				cout << "  input third number: ";
-				cin >> cNum;
-
-				float sumVal = aNum + bNum + cNum;
-				float avgVal = sumVal / 3;
-
-				cout << " Calculation: " << aNum << "+" << bNum << "+" << cNum << " = " << sumVal << "/3 = " << avgVal << endl;
-				cout << " Final Average: " << avgVal << endl << endl;
-			}
-		}
-
-		cout << " Type ENTER to return to menu (type x to exit)" << endl;
-		cin.ignore();
-		getline(cin, eKey);
-		if (eKey == "x") { cout <<"exiting program..."; break; }
+		cin.clear();
 	}
 
 		return 0;
