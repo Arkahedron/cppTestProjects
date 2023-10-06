@@ -130,6 +130,38 @@ float calcMult() {
 }
 
 
+//function for outputting numerical information of inputted value
+float calcInfo() { cout << endl << " What number would you like information on?: ";
+
+	//User input for getting information of
+	float infoInput = floatInputOnly();
+	float infoFloor = floor(infoInput);
+
+	//Find if given number is a whole number or not, then print
+	if (infoInput == infoFloor) { cout << "  The number " << infoInput << " is a WHOLE number" << endl; }
+	else { cout << "  The number " << infoInput << " is NOT a WHOLE number" << endl; }
+
+
+	//Find if given number is divisible by two, then print relevant polarity
+	int infoRemain =  remainder(infoFloor, 2);
+	if(infoRemain == 0){ cout << "  The number " << infoFloor << " is EVEN" << endl; }
+	else{ cout << "  The number " << infoFloor << " is ODD" << endl; }
+
+	//Find if given number might be prime, (might not be accurate on larger numbers)
+	bool infoIsP = true;
+	for (int i = 100; i > 2; i--) {
+		int infoPrimer = remainder(infoFloor, i);
+		if (i != infoFloor && infoPrimer == 0) { infoIsP = false; break; } 
+	}
+	if (infoIsP == true) {cout << "  The number " << infoFloor << " is (probably) PRIME" << endl;}
+	else { cout << "  The number " << infoFloor << " is NOT PRIME" << endl; }
+
+	cout << endl;
+
+	return 0;
+}
+
+
 int main()
 {
 	//Print program introduction 
@@ -142,6 +174,7 @@ int main()
 		cout << " - type SUM to add a group of numbers together" << endl;
 		cout << " - type AVG to find the average of a group of numbers" << endl;
 		cout << " - type MULT to find multiples of a given number" << endl;
+		cout << " - type INFO to find numerical data of a given number" << endl;
 		cout <<" (type X to exit)" << endl;
 		cout << "> ";
 
@@ -163,6 +196,10 @@ int main()
 		//Call function for finding multiples of inputted values
 		if (mainInput == "MULT" or mainInput == "mult")
 		{ calcMult(); }
+
+		//Call function for finding information of an inputted value
+		if (mainInput == "INFO" or mainInput == "info")
+		{ calcInfo(); }
 
 	}
 	return 0;
