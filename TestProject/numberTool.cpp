@@ -6,30 +6,30 @@
 using namespace std;
 
 
-//Function for checking if user input is a valid float and only continuing if it eists
-float floatInputOnly() {
+//Function for checking if user input is a valid float and only continuing if it exists
+float cinputParseFloat() {
 
-	string input = "";
-	float myNumber = 0;
+	string inputToParse = "";
+	float parsedFloatOutput = 0;
 
 	//Test first user input line stringstream data if float
-	getline(cin, input);
-	stringstream ss(input);
-	if (ss >> myNumber) { return myNumber; }
+	getline(cin, inputToParse);
+	stringstream ss(inputToParse);
+	if (ss >> parsedFloatOutput) { return parsedFloatOutput; }
 
 	//Refuse non-float user input and propmt number input
 	while (true) {
 		cout << " (please enter a valid number): ";
-		getline(cin, input);
-		stringstream ss(input);
-		if (ss >> myNumber) {break;}
+		getline(cin, inputToParse);
+		stringstream ss(inputToParse);
+		if (ss >> parsedFloatOutput) {break;}
 	}
-	return myNumber;
+	return parsedFloatOutput;
 }
 
 
 //Function for adding user defined amount of numbers together, also used for average func
-pair<float, float> calcSum(bool solo) { 
+pair<float, float> calcStateSum(bool solo) { 
 	//sum intro only prints if func is run independently of AVG
 	if (solo == 1) { cout << endl << " How many numbers do you want to ADD together?: "; }
 
@@ -39,7 +39,7 @@ pair<float, float> calcSum(bool solo) {
 	float * sumArray;
 	
 	//User input for calculation size and checks/cleans to only accept float values
-	sumInput = floatInputOnly(); 
+	sumInput = cinputParseFloat(); 
 
 	//Generate and validate array size
 	sumArray = new (nothrow) float[sumInput];
@@ -48,7 +48,7 @@ pair<float, float> calcSum(bool solo) {
 		//Prompt for, accept, and clean user input to put in array
 		for (sumLength = 0; sumLength < sumInput; sumLength++) {
 		cout << "  input number " << sumLength+1 << ": ";
-		sumArray[sumLength] = floatInputOnly();
+		sumArray[sumLength] = cinputParseFloat();
 		}
 	}
 	//Validate and parse array content to add all values together
@@ -80,14 +80,14 @@ pair<float, float> calcSum(bool solo) {
 
 
 //Function for finding the average of a user defined amount of numbers
-float calcAvg() { cout << endl << " How many numbers do you want to find the AVERAGE of?: ";
+float calcStateAverage() { cout << endl << " How many numbers do you want to find the AVERAGE of?: ";
 	
 	//Run and pull addition calculator to get user inputted sum and divisor
-	pair<float, float> sumRtrnPair = calcSum(0);
-	float avgActiveValue = sumRtrnPair.first / sumRtrnPair.second;
+	pair<float, float> sumDivisorPair = calcStateSum(0);
+	float avgActiveValue = sumDivisorPair.first / sumDivisorPair.second;
 
 	//Print average calculation and outro
-	cout <<  "/" << sumRtrnPair.second << " = " << avgActiveValue;
+	cout <<  "/" << sumDivisorPair.second << " = " << avgActiveValue;
 	cout << endl << " Final Average: " << avgActiveValue  << endl << endl;
 
 	return avgActiveValue; //Func returns final averaged value of player inputs
@@ -95,7 +95,7 @@ float calcAvg() { cout << endl << " How many numbers do you want to find the AVE
 
 
 //Function for listing a defined amount of multiples of inputted value
-float calcMult() { 
+float calcStateMultiples() { 
 	
 	float multActiveValue;
 	float multSelected;
@@ -105,11 +105,11 @@ float calcMult() {
 
 	//User input for multiple number and checks/cleans to only accept float values
 	cout << endl << " What number do you want to get MULTIPLES of?: ";
-	multSelected = floatInputOnly();
+	multSelected = cinputParseFloat();
 	
 	//User input for how many multiples to get and check/clean to only accept float values
 	cout << " How many MULTIPLES of your number do you want?: ";
-	multInput = floatInputOnly();
+	multInput = cinputParseFloat();
 	
 	//Generate and validate array size
 	multArray = new (nothrow) float[multInput];
@@ -131,32 +131,29 @@ float calcMult() {
 
 
 //function for outputting numerical information of inputted value
-float calcInfo() { cout << endl << " What number would you like information on?: ";
+float calcStateInfo() {
+	cout << endl << " What number would you like information on?: ";
 
 	//User input for getting information of
-	float infoInput = floatInputOnly();
+	float infoInput = cinputParseFloat();
 	float infoFloor = floor(infoInput);
 
 	//Find if given number is a whole number or not, then print
-	if (infoInput == infoFloor) { cout << "  The number " << infoInput << " is a WHOLE number" << endl; }
-	else { cout << "  The number " << infoInput << " is NOT a WHOLE number" << endl; }
-
+	cout << "  The number " << infoInput << (infoInput == infoFloor ? " is a WHOLE number" : " is NOT a WHOLE number") << endl;
 
 	//Find if given number is divisible by two, then print relevant polarity
-	int infoRemain =  remainder(infoFloor, 2);
-	if(infoRemain == 0){ cout << "  The number " << infoFloor << " is EVEN" << endl; }
-	else{ cout << "  The number " << infoFloor << " is ODD" << endl; }
+	int infoRemain = remainder(infoFloor, 2);
+	cout << "  The number " << infoFloor << (infoRemain == 0 ? " is EVEN" : " is ODD") << endl; //REFACTOR ALL BINARY OUTS TO USE TURNARY OPS
 
 	//Find if given number might be prime, (might not be accurate on larger numbers)
 	bool infoIsP = true;
 	for (int i = 100; i > 2; i--) {
 		int infoPrimer = remainder(infoFloor, i);
-		if (i != infoFloor && infoPrimer == 0) { infoIsP = false; break; } 
+		bool equalToSelf = i != infoFloor;
+		bool divisible = infoPrimer == 0;
+		if (equalToSelf && divisible) { infoIsP = false; break; }
 	}
-	if (infoIsP == true) {cout << "  The number " << infoFloor << " is (probably) PRIME" << endl;}
-	else { cout << "  The number " << infoFloor << " is NOT PRIME" << endl; }
-
-	cout << endl;
+	cout << "  The number " << infoFloor << (infoIsP == true ? " is (probably) PRIME" : "is NOT PRIME") << endl << endl;
 
 	return 0;
 }
@@ -183,23 +180,24 @@ int main()
 		getline(cin, mainInput);
 		
 		//Exit program if user inputs "x" key
-		if (mainInput == "x" or mainInput == "X") { cout << "exiting program..."; break; }
+		if (mainInput == "x" or mainInput == "X") 
+		{ cout << "exiting program..."; break; }
 		
 		//Call function for adding user inputted values
 		if (mainInput == "SUM" or mainInput == "sum") 
-		{ calcSum(1); }
+		{ calcStateSum(1); }
 
 		//Call function for averaging user inputted values
 		if (mainInput == "AVG" or mainInput == "avg") 
-		{ calcAvg(); }
+		{ calcStateAverage(); }
 
 		//Call function for finding multiples of inputted values
 		if (mainInput == "MULT" or mainInput == "mult")
-		{ calcMult(); }
+		{ calcStateMultiples(); }
 
 		//Call function for finding information of an inputted value
 		if (mainInput == "INFO" or mainInput == "info")
-		{ calcInfo(); }
+		{ calcStateInfo(); }
 
 	}
 	return 0;
