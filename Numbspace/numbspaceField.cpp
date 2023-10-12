@@ -7,12 +7,12 @@ using namespace std; //using declaration for cout, cin, endl and string
 
 string globalInput = ""; //User inputed string
 
-int seedX = 19; //Default starting array value (will change array generation to noise based later)
-int seedY = 17;
-int rowMax = 9; //Default number map size
+int seedX = 89; //Default starting array value (will change array generation to noise based later)
+int seedY = 83;
+int rowMax = 7; //Default number map size
 int colMax = rowMax;
 int mapEdgeMax = rowMax;
-int flattenVal = 12;
+int flattenVal = 23;
 
 int userCoordX = 0; //Current user map x coordinate 
 int userCoordY = 0; //Current user map y coordinate
@@ -28,7 +28,7 @@ int buildMapArrayX() {
 	}
 	for (int i = 0; i < rowMax; i++) {
 		for (int j = 0; j < colMax; j++) {
-			//Establish map dataset
+			//Establish X map dataset
 			seedX += 1;
 			nmArrayX[i][j] = seedX;
 		}
@@ -44,7 +44,7 @@ int buildMapArrayY() {
 	}
 	for (int j = 0; j < colMax; j++) {
 		for (int i = 0; i < rowMax; i++) {
-			//Establish map dataset (adjust this to build from opposite corner of array)
+			//Establish Y map dataset (adjust this to build from opposite corner of array)
 			seedY += 1;
 			nmArrayY[i][j] = seedY;
 		}
@@ -97,7 +97,7 @@ int postMapArrayMult() {
 		for (int j = 0; j < colMax; j++) {
 			multiLoc = (nmArrayX[i][j] * nmArrayY[i][j]) / flattenVal;
 			bool validateLoc = (multiLoc == userLocationData && i == userCoordX && j == userCoordY);
-			cout << (validateLoc ? "{" : " " ) << multiLoc << (validateLoc ? "}" : " ");
+			cout << (validateLoc ? "[" : " " ) << multiLoc << (validateLoc ? "]" : " ");
 		}
 		cout << endl;
 	}
@@ -140,6 +140,7 @@ int main()
 	//Introduction and initial input prompt
 	cout << "---------{ Welcome to Numbspace }---------" << endl;
 	cout << "Press anything to generate the Numbspace Map" << endl;
+	cout << "> ";
 	getline(cin, globalInput);
 
 	//> cout << "What size of map do you want?: "; cin >> rowMax; colMax = rowMax; mapEdgeMax = rowMax;
