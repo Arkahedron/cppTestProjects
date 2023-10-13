@@ -7,18 +7,29 @@ using namespace std; //using declaration for cout, cin, endl and string
 
 string globalInput = ""; //User inputed string
 
-int seedX = 89; //Default starting array value (will change array generation to noise based later)
+//Default starting array values (will change array generation to noise based later)
+//Good presets, (seedX,seedY:rowMax:flattenVal); (89,83:7:23) () ()
+int seedX = 89;
 int seedY = 83;
 int rowMax = 7; //Default number map size
+int flattenVal = 23; //How much to divide the outputed field's values by
+
 int colMax = rowMax;
 int mapEdgeMax = rowMax;
-int flattenVal = 23;
 
 int userCoordX = 0; //Current user map x coordinate 
 int userCoordY = 0; //Current user map y coordinate
 int userLocationData = 1; //Value from user's current position on map
 bool didWrap; //Did the user's location wrap around the map that move
 int multiLoc = userLocationData; //Set combined array initial location
+
+//cout a linebreak the size of the map
+void printLinebreak(){
+	int lines = rowMax * 5;
+	cout.width(lines);
+	cout.fill('-');
+	cout << "" << endl;
+}
 
 //Build the map arrayX from the defined size
 int** nmArrayX = new int* [rowMax];
@@ -53,9 +64,9 @@ int buildMapArrayY() {
 }
 
 
-//Print a matrix of the numberspace map arrayX and show user location >UNUSED
+//(UNUSED) Print a matrix of the numberspace map arrayX and show user location 
 int postMapArrayX() {
-	cout << "-----------------------------------" << endl;
+	printLinebreak();
 	for (int i = 0; i < rowMax; i++) {
 		for (int j = 0; j < colMax; j++) {
 			if (nmArrayX[i][j] == userLocationData) {
@@ -67,11 +78,11 @@ int postMapArrayX() {
 		}
 		cout << endl;
 	}
-	cout << "-----------------------------------";
+	printLinebreak();
 	return nmArrayX[userCoordX][userCoordY];
 }
 
-//Print a matrix of the numberspace map arrayY and show user location >UNUSED
+//(UNUSED) Print a matrix of the numberspace map arrayY and show user location
 int postMapArrayY() {
 	cout << "-----------------------------------" << endl;
 	for (int i = 0; i < rowMax; i++) {
@@ -91,8 +102,8 @@ int postMapArrayY() {
 
 
 //Print a matrix of the numberspace map array combination and show user location
-int postMapArrayMult() {
-	cout << "-----------------------------------" << endl;
+int postMapArrayCombined() {
+	printLinebreak();
 	for (int i = 0; i < rowMax; i++) {
 		for (int j = 0; j < colMax; j++) {
 			multiLoc = (nmArrayX[i][j] * nmArrayY[i][j]) / flattenVal;
@@ -101,7 +112,7 @@ int postMapArrayMult() {
 		}
 		cout << endl;
 	}
-	cout << "-----------------------------------";
+	printLinebreak();
 	return multiLoc;
 }
 
@@ -155,7 +166,7 @@ int main()
 
 		//> postMapArrayX();
 		//> postMapArrayY();
-		postMapArrayMult();
+		postMapArrayCombined();
 
 		//Output info and input prompt
 		cout << endl << " Coordinates: " << userCoordX+1 << "," << userCoordY+1 << endl;
