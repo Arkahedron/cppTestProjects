@@ -2,8 +2,10 @@
 #include <string>
 #include <sstream>
 
-//using declaration for cout, cin, endl and string
-using namespace std;
+using namespace std; //using declaration for cout, cin, endl and string
+
+
+string mainInput; //Main user input data
 
 
 //Function for checking if user input is a valid float and only continuing if it exists
@@ -29,9 +31,9 @@ float cinputParseFloat() {
 
 
 //Function for adding user defined amount of numbers together, also used for average func
-pair<float, float> calcStateSum(bool solo) { 
+pair<float, float> calcStateSum(bool independent) { 
 	//sum intro only prints if func is run independently of AVG
-	if (solo == 1) { cout << endl << " How many numbers do you want to ADD together?: "; }
+	if (independent == 1) { cout << endl << " How many numbers do you want to ADD together?: "; }
 
 	float sumActiveValue = 0;
 	int sumInput;
@@ -67,7 +69,7 @@ pair<float, float> calcStateSum(bool solo) {
 	}
 	cout << " = " << sumActiveValue;
 	//Sum outro only prints if func is run independently of AVG
-	if (solo == 1) { cout << endl << " Final Sum: " << sumActiveValue << endl << endl; }
+	if (independent == 1) { cout << endl << " Final Sum: " << sumActiveValue << endl << endl; }
 	
 	//Push array data into floats for return pair before array cleared
 	float flSumLength = sumLength;
@@ -80,7 +82,8 @@ pair<float, float> calcStateSum(bool solo) {
 
 
 //Function for finding the average of a user defined amount of numbers
-float calcStateAverage() { cout << endl << " How many numbers do you want to find the AVERAGE of?: ";
+void calcStateAverage() { 
+	cout << endl << " How many numbers do you want to find the AVERAGE of?: ";
 	
 	//Run and pull addition calculator to get user inputted sum and divisor
 	pair<float, float> sumDivisorPair = calcStateSum(0);
@@ -89,13 +92,11 @@ float calcStateAverage() { cout << endl << " How many numbers do you want to fin
 	//Print average calculation and outro
 	cout <<  "/" << sumDivisorPair.second << " = " << avgActiveValue;
 	cout << endl << " Final Average: " << avgActiveValue  << endl << endl;
-
-	return avgActiveValue; //Func returns final averaged value of player inputs
 }
 
 
 //Function for listing a defined amount of multiples of inputted value
-float calcStateMultiples() { 
+void calcStateMultiples() { 
 	
 	float multActiveValue;
 	float multSelected;
@@ -125,37 +126,42 @@ float calcStateMultiples() {
 	}
 	delete[] multArray; //Delete multiply array from memory heap
 	cout << endl << endl;
-
-	return 0;
 }
 
 
 //function for outputting numerical information of inputted value
-float calcStateInfo() {
+void calcStateInfo() {
 	cout << endl << " What number would you like information on?: ";
 
 	//User input for getting information of
 	float infoInput = cinputParseFloat();
 	float infoFloor = floor(infoInput);
 
-	//Find if given number is a whole number or not, then print
-	cout << "  The number " << infoInput << (infoInput == infoFloor ? " is a WHOLE number" : " is NOT a WHOLE number") << endl;
+	//Find if given number is positive or negative
+	bool infoPositive = infoInput >= 0.0;
 
-	//Find if given number is divisible by two, then print relevant polarity
+	//Find if given number is a whole number or not
+	bool infoWhole = infoInput == infoFloor;
+
+	//Find if given number is divisible by two to determine even/odd
 	int infoRemain = remainder(infoFloor, 2);
-	cout << "  The number " << infoFloor << (infoRemain == 0 ? " is EVEN" : " is ODD") << endl; //REFACTOR ALL BINARY OUTS TO USE TURNARY OPS
+	bool infoEven = infoRemain == 0;
 
 	//Find if given number might be prime, (might not be accurate on larger numbers)
-	bool infoIsP = true;
+	bool infoPrime = true;
 	for (int i = 100; i > 2; i--) {
 		int infoPrimer = remainder(infoFloor, i);
 		bool equalToSelf = i != infoFloor;
 		bool divisible = infoPrimer == 0;
-		if (equalToSelf && divisible) { infoIsP = false; break; }
+		if (equalToSelf && divisible) { infoPrime = false; break; }
 	}
-	cout << "  The number " << infoFloor << (infoIsP == true ? " is (probably) PRIME" : "is NOT PRIME") << endl << endl;
 
-	return 0;
+	cout << "  The number " << infoInput << " is ";
+	cout << (infoPositive ? "POSITIVE, " : "NEGATIVE, ");
+	cout << (infoWhole ? "a WHOLE number, " : "NOT a WHOLE number, ");
+	cout << (infoEven ? "EVEN, " : "ODD, ") << "and ";
+	cout << (infoPrime ? "PRIME" : "NOT PRIME");
+	cout << endl << endl;
 }
 
 
@@ -174,9 +180,6 @@ int main()
 		cout << " - type INFO to find numerical data of a given number" << endl;
 		cout <<" (type X to exit)" << endl;
 		cout << "> ";
-
-		//Get user input and put into usable variable
-		string mainInput;
 		getline(cin, mainInput);
 		
 		//Exit program if user inputs "x" key
@@ -184,20 +187,24 @@ int main()
 		{ cout << "exiting program..."; break; }
 		
 		//Call function for adding user inputted values
-		if (mainInput == "SUM" or mainInput == "sum") 
+		else if (mainInput == "SUM" or mainInput == "sum") 
 		{ calcStateSum(1); }
 
 		//Call function for averaging user inputted values
-		if (mainInput == "AVG" or mainInput == "avg") 
+		else if (mainInput == "AVG" or mainInput == "avg") 
 		{ calcStateAverage(); }
 
 		//Call function for finding multiples of inputted values
-		if (mainInput == "MULT" or mainInput == "mult")
+		else if (mainInput == "MULT" or mainInput == "mult")
 		{ calcStateMultiples(); }
 
 		//Call function for finding information of an inputted value
-		if (mainInput == "INFO" or mainInput == "info")
+		else if (mainInput == "INFO" or mainInput == "info")
 		{ calcStateInfo(); }
+
+		//If none of the relevant inputs are found, tell user to try again
+		else
+		{ cout << "(invalid input, please try again)" << endl << endl; }
 
 	}
 	return 0;
