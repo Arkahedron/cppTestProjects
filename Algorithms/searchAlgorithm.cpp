@@ -11,7 +11,7 @@ string mainInput;
 int numberTarget = 9;
 bool numberFound = 0;
 
-
+//Cinput with check to only allow foat input
 float cinputParseFloat() {
 
 	string inputToParse = "";
