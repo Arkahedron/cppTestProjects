@@ -3,11 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.7.34031.279
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Algorithms", "Algorithms\Algorithms.vcxproj", "{E0F5B164-54A5-4732-948A-66FB5C04FC92}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SearchAlgorithms", "Algorithms\Algorithms.vcxproj", "{E0F5B164-54A5-4732-948A-66FB5C04FC92}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Calculators", "Calculators\Calculators.vcxproj", "{C941A20F-FB0C-4BE8-8DA4-5975862CBDE2}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Numbspace", "Numbspace\Numbspace.vcxproj", "{77C9F436-5B17-49DF-856D-229B9952C163}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SortAlgorithms", "SortAlgorithms\SortAlgorithms.vcxproj", "{11553170-D58F-4755-8EAE-4C14D7B98BDC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -41,6 +43,14 @@ Global
 		{77C9F436-5B17-49DF-856D-229B9952C163}.Release|x64.Build.0 = Release|x64
 		{77C9F436-5B17-49DF-856D-229B9952C163}.Release|x86.ActiveCfg = Release|Win32
 		{77C9F436-5B17-49DF-856D-229B9952C163}.Release|x86.Build.0 = Release|Win32
+		{11553170-D58F-4755-8EAE-4C14D7B98BDC}.Debug|x64.ActiveCfg = Debug|x64
+		{11553170-D58F-4755-8EAE-4C14D7B98BDC}.Debug|x64.Build.0 = Debug|x64
+		{11553170-D58F-4755-8EAE-4C14D7B98BDC}.Debug|x86.ActiveCfg = Debug|Win32
+		{11553170-D58F-4755-8EAE-4C14D7B98BDC}.Debug|x86.Build.0 = Debug|Win32
+		{11553170-D58F-4755-8EAE-4C14D7B98BDC}.Release|x64.ActiveCfg = Release|x64
+		{11553170-D58F-4755-8EAE-4C14D7B98BDC}.Release|x64.Build.0 = Release|x64
+		{11553170-D58F-4755-8EAE-4C14D7B98BDC}.Release|x86.ActiveCfg = Release|Win32
+		{11553170-D58F-4755-8EAE-4C14D7B98BDC}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
