@@ -10,12 +10,11 @@ bool doContinue = true;
 string rawInput = "";
 string dirtyOutput;
 float cleanOutput;
+float parsedFloatOutput = 0;
+string cleanStringOutput = "";
 
 //Cinput with check to only allow foat input
 float parseCinput() {
-
-	float parsedFloatOutput = 0;
-	string cleanStringOutput = "";
 
 	//Exit program if user inputs "x" key
 	cout << " (x to exit) ";
@@ -38,7 +37,7 @@ float parseCinput() {
 		dirtyOutput = rawInput;
 		rawInput = "";
 		cout << " (please enter a valid number)" << endl;
-		parseCinput();
+		return parseCinput();
 	}
 
 	/*
